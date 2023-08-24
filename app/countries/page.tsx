@@ -1,5 +1,7 @@
+import { BASEURL } from "../lib/utils"
+
 export default async function Index() {
-  const response = await fetch("/api/country", {
+  const response = await fetch(BASEURL + "/api/country", {
     cache: "no-store",
   })
   const countries = await response.json()
