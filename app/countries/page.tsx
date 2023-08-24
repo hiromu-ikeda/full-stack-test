@@ -1,5 +1,5 @@
 export default async function Index() {
-  const response = await fetch("http://localhost:3000/api/country", {
+  const response = await fetch("/api/country", {
     cache: "no-store",
   })
   const countries = await response.json()
