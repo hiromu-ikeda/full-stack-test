@@ -1,12 +1,36 @@
-import { BASEURL } from "../lib/utils"
+import { Suspense } from "react"
+import { fetchWithCookies } from "../lib/utils"
 
-export default async function Index() {
-  const response = await fetch(BASEURL + "/api/country", {
-    cache: "no-store",
-  })
-  const countries = await response.json()
+type Country = {
+  name: string
+}
+
+const CountriesFeed = async ({
+  countriesPromise,
+}: {
+  countriesPromise: Promise<Country[]>
+}) => {
+  const countries = await countriesPromise
 
   return (
-    <ul className="my-auto text-foreground">{JSON.stringify(countries)}</ul>
+    <>
+      {countries.map((country) => (
+        <p>{country.name}</p>
+      ))}
+    </>
+  )
+}
+
+export default async function Index() {
+  const countriesPromise = fetchWithCookies<Country[]>(`/api/country`, {
+    cache: "no-store",
+  })
+
+  return (
+    <div>
+      <Suspense fallback={<p>Loading...</p>}>
+        <CountriesFeed countriesPromise={countriesPromise} />
+      </Suspense>
+    </div>
   )
 }
