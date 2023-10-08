@@ -1,6 +1,8 @@
 import { Suspense } from "react"
 import { fetchWithCookies } from "../lib/utils"
 
+export const dynamic = "force-dynamic"
+
 type Country = {
   name: string
 }
